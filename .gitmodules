@@ -1,9 +1,6 @@
 [submodule "DIOPI"]
 	path = DIOPI
 	url = https://github.com/OpenComputeLab/DIOPI.git
-[submodule "mmcv/ops/csrc/DIOPI-IMPL"]
-	path = mmcv/ops/csrc/DIOPI-IMPL
-	url = https://github.com/OpenComputeLab/DIOPI-IMPL.git
 [submodule "DIOPI-TEST"]
 	path = DIOPI-TEST
 	url = https://github.com/OpenComputeLab/DIOPI-TEST.git
