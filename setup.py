@@ -278,6 +278,8 @@ def get_extensions():
             extra_compile_args['cxx'] = ['-std=c++14']
 
         include_dirs = []
+        library_dirs = []
+        libraries = []
 
         is_rocm_pytorch = False
         try:
@@ -302,8 +304,8 @@ def get_extensions():
                 glob.glob('./mmcv/ops/csrc/pytorch/cuda/*.cu') + \
                 glob.glob('./mmcv/ops/csrc/pytorch/cuda/*.cpp')
             if os.getenv('MMCV_WITH_DIOPI', '0') == '1':
-                op_files += glob.glob(
-                    './mmcv/ops/csrc/DIOPI-IMPL/cuda/functions/*.cu')
+                # op_files += glob.glob(
+                #     './mmcv/ops/csrc/DIOPI-IMPL/cuda/functions/*.cu')
                 op_files += glob.glob('./mmcv/ops/csrc/diopi_rt/torch/*.cpp')
             extension = CUDAExtension
             include_dirs.append(os.path.abspath('./mmcv/ops/csrc/pytorch'))
@@ -313,6 +315,8 @@ def get_extensions():
                 include_dirs.append(os.path.abspath('./DIOPI/include'))
                 include_dirs.append(
                     os.path.abspath('./mmcv/ops/csrc/diopi_rt/torch'))
+                library_dirs += ['./DIOPI-TEST/lib/no_runtime']
+                libraries += ['diopi_impl']
             if os.getenv('MMCV_WITH_DIOPI', '0') == '1':
                 define_macros += [('MMCV_WITH_DIOPI', None)]
                 define_macros += [('DIOPI_ATTR_WEAK', None)]
@@ -391,7 +395,9 @@ def get_extensions():
             sources=op_files,
             include_dirs=include_dirs,
             define_macros=define_macros,
-            extra_compile_args=extra_compile_args)
+            extra_compile_args=extra_compile_args,
+            library_dirs=library_dirs,
+            libraries=libraries)
         extensions.append(ext_ops)
 
     if EXT_TYPE == 'pytorch' and os.getenv('MMCV_WITH_ORT', '0') != '0':
