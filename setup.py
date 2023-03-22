@@ -212,6 +212,14 @@ def get_extensions():
             glob.glob('./mmcv/ops/csrc/pytorch/cpu/*.cpp') +\
             glob.glob('./mmcv/ops/csrc/parrots/*.cpp')
         op_files.remove('./mmcv/ops/csrc/pytorch/cuda/iou3d_cuda.cu')
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+        op_files.remove('./mmcv/ops/csrc/pytorch/cpu/bbox_overlaps_cpu.cpp')
+>>>>>>> 1de3aef... Fix bbox_overlaps of parrots (#2684)
+>>>>>>> 5922eb3... Fix bbox_overlaps of parrots (#2684)
         include_dirs.append(os.path.abspath('./mmcv/ops/csrc/common'))
         include_dirs.append(os.path.abspath('./mmcv/ops/csrc/common/cuda'))
         cuda_args = os.getenv('MMCV_CUDA_ARGS')
