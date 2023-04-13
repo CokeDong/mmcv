@@ -1,6 +1,6 @@
 [submodule "DIOPI"]
 	path = DIOPI
-	url = https://github.com/OpenComputeLab/DIOPI-PROTO.git
+	url = git@github.com:OpenComputeLab/DIOPI-PROTO.git
 [submodule "DIOPI-TEST"]
 	path = DIOPI-TEST
 	url = git@github.com:OpenComputeLab/DIOPI-TEST.git
