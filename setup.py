@@ -278,6 +278,8 @@ def get_extensions():
             extra_compile_args['cxx'] = ['-std=c++14']
 
         include_dirs = []
+        library_dirs = []
+        libraries = []
 
         is_rocm_pytorch = False
         try:
@@ -332,9 +334,11 @@ def get_extensions():
                 glob.glob('./mmcv/ops/csrc/common/mlu/*.mlu')
             if os.getenv('MMCV_WITH_DIOPI', '0') == '1':
                 # op_files += glob.glob('./mmcv/ops/csrc/diopi_impl/camb/*.cpp')
-                op_files += glob.glob('./mmcv/ops/csrc/DIOPI-IMPL/camb/functions_mmcv/*.cpp')
-                op_files += glob.glob('./mmcv/ops/csrc/DIOPI-IMPL/camb/functions_mmcv/*.mlu')
+                # op_files += glob.glob('./mmcv/ops/csrc/DIOPI-IMPL/camb/functions_mmcv/*.cpp')
+                # op_files += glob.glob('./mmcv/ops/csrc/DIOPI-IMPL/camb/functions_mmcv/*.mlu')
                 op_files += glob.glob('./mmcv/ops/csrc/diopi_rt/camb/*.cpp')
+                library_dirs += ['./DIOPI-TEST/lib/no_runtime']
+                libraries += ['diopi_impl']
             extension = MLUExtension
             include_dirs.append(os.path.abspath('./mmcv/ops/csrc/common'))
             include_dirs.append(os.path.abspath('./mmcv/ops/csrc/common/mlu'))
@@ -403,7 +407,9 @@ def get_extensions():
             sources=op_files,
             include_dirs=include_dirs,
             define_macros=define_macros,
-            extra_compile_args=extra_compile_args)
+            extra_compile_args=extra_compile_args,
+            library_dirs=library_dirs,
+            libraries=libraries)
         extensions.append(ext_ops)
 
     if EXT_TYPE == 'pytorch' and os.getenv('MMCV_WITH_ORT', '0') != '0':
